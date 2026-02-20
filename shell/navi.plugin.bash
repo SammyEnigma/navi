@@ -16,8 +16,11 @@ _navi_widget() {
       local -r replacement="$(_navi_call --print --query "$last_command")"
       local output="$input"
       if [ -n "$replacement" ]; then
-         output="${input}_NAVIEND"
-         output="${output//$find/$replacement}"
+        output="${input}_NAVIEND"
+        output=$(
+          shopt -u patsub_replacement
+          printf '%s' "${output//"$find"/"$replacement"}"
+        )
       fi
    fi
 
